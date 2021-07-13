@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -18,6 +19,7 @@ class _Predefined_OutputScreenState extends State<Predefined_OutputScreen> {
   //Realtime Databasse
   final fb = FirebaseDatabase.instance;
   var retrievedName = "";
+  // var outputString="";
   String inputvalue = "";
   String gest01 = "gest01";
   String gest02 = "gest02";
@@ -53,7 +55,7 @@ class _Predefined_OutputScreenState extends State<Predefined_OutputScreen> {
                 //   child: Text("Retrieve data"),
                 // ),
                 Text(
-                  "$retrievedName",
+                  retrievedName,
                   style: comboTag,
                 ),
                 // GestureDetector(
@@ -91,6 +93,7 @@ class _Predefined_OutputScreenState extends State<Predefined_OutputScreen> {
       ref.child("inputvalue").once().then((DataSnapshot data) {
         setState(() {
           retrievedName = data.value;
+         retrievedName='gest07';
           _checkGesture();
           _speak();
         });
@@ -98,15 +101,45 @@ class _Predefined_OutputScreenState extends State<Predefined_OutputScreen> {
     });
   }
   _checkGesture() {
-    if(retrievedName.compareTo(gest01) == true) {
-      setState(() {
-        retrievedName = "$outputName";
-      });
+    bool flag=false;
+    List<String>outputStrings=[
+      'Hello! How are you doing?',
+      'Thanks a lot',
+      'Can I get something to eat or drink',
+      'That\'s great',
+      'Yes',
+      'No',
+      'What time is it?',
+      'Excuse me',
+      'Can you please help me',
+      'How much does this cost?',
+      'Goodbye!',
+    ];
+    for(int i=1; i<=9;i++)
+    {
+      if(retrievedName == 'gest0$i') {
+        setState(() {
+          flag = true;
+          retrievedName = outputStrings[i-1];
+        }
+        );
+        break;
+      }
     }
-    else if(retrievedName.compareTo(gest02) == true) {
+    if(flag==false)
+    {
       setState(() {
-      });
+        flag = true;
+        retrievedName = 'Customised code';
+
+      }
+      );
+
+      //write the customised ka code here
+
     }
+
+
   }
 }
-}
+
